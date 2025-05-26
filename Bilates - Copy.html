@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بي بيلاتس | استوديو بيلاتس متكامل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://optim.tildacdn.one/tild3030-6534-4661-a631-353538646338/-/format/webp/BKT01025.jpg.webp');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nav-link:hover::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: white;
+            margin: 5px auto 0;
+        }
+        
+        .class-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .mobile-menu {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#home" class="text-2xl font-bold text-[#bcb2a3]">بيلاتس هاوس </a>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8 space-x-reverse">
+                <a href="#home" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition">الرئيسية</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition">من نحن</a>
+                <a href="#classes" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition">الحصص</a>
+                <a href="#testimonials" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition">آراء العملاء</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition">اتصل بنا</a>
+            </nav>
+            
+            <div class="hidden md:block">
+                <a href="#contact" class="bg-[#bcb2a3] text-white px-6 py-2 rounded-full hover:bg-[#a89e8f] transition">احجز الآن</a>
+            </div>
+            
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white w-full absolute left-0 right-0 shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4 space-y-reverse">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-[#bcb2a3]">الرئيسية</a>
+                <a href="#about" class="block py-2 text-gray-700 hover:text-[#bcb2a3]">من نحن</a>
+                <a href="#classes" class="block py-2 text-gray-700 hover:text-[#bcb2a3]">الحصص</a>
+                <a href="#trainers" class="block py-2 text-gray-700 hover:text-[#bcb2a3]">المدربون</a>
+                <a href="#testimonials" class="block py-2 text-gray-700 hover:text-[#bcb2a3]">آراء العملاء</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-[#bcb2a3]">اتصل بنا</a>
+                <a href="#contact" class="block bg-[#bcb2a3] text-white px-6 py-2 rounded-full text-center hover:bg-[#a89e8f]">احجز الآن</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero min-h-screen flex items-center justify-center text-white pt-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">بيلاتس هاوس  </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">اكتشف قوة جسدك مع حصص بيلاتس الاحترافية في بيئة مريحة ومجهزة بأحدث المعدات</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#classes" class="bg-[#bcb2a3] hover:bg-[#a89e8f] text-white px-8 py-3 rounded-full text-lg transition">استكشف الحصص</a>
+                <a href="#contact" class="bg-white hover:bg-gray-100 text-[#bcb2a3] px-8 py-3 rounded-full text-lg transition">احجز جلسة</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pl-10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-[#bcb2a3]">من نحن</h2>
+                    <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+                        بيلاتس هاوس  هو استوديو متكامل يقدم حصص بيلاتس بقيادة مدربين محترفين معتمدين. نؤمن بأن البيلاتس ليس مجرد تمرين بل أسلوب حياة يعزز القوة والمرونة والتوازن.
+                    </p>
+                    <p class="text-lg mb-6 text-gray-700 leading-relaxed">
+                        في بيلاتس هاوس  نقدم تجربة فريدة تجمع بين التقاليد الأصيلة للبيلاتس والتقنيات الحديثة لضمان تحقيق أفضل النتائج لجميع المستويات.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <div class="flex items-center">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-3">
+                                <i class="fas fa-check text-[#bcb2a3]"></i>
+                            </div>
+                            <span>مدربون معتمدون</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-3">
+                                <i class="fas fa-check text-[#bcb2a3]"></i>
+                            </div>
+                            <span>معدات حديثة</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-3">
+                                <i class="fas fa-check text-[#bcb2a3]"></i>
+                            </div>
+                            <span>برامج شخصية</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Pilates class" class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1820&q=80" alt="Pilates equipment" class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Pilates class" class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Pilates class" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section -->
+    <section id="classes" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#bcb2a3]">حصصنا التدريبية</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">نقدم مجموعة متنوعة من حصص البيلاتس المناسبة لجميع المستويات والأهداف</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Class 1 -->
+                <div class="class-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Pilates Mat Class" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">بيلاتس على الأرض</h3>
+                            <span class="bg-[#bcb2a3]/20 text-[#bcb2a3] px-3 py-1 rounded-full text-sm">مبتدئ</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">حصة أساسية تركز على الحركات الأساسية للبيلاتس باستخدام حصيرة فقط، مثالية للمبتدئين.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#bcb2a3] font-bold">75 ريال</span>
+                            <a href="#contact" class="text-[#bcb2a3] hover:text-[#a89e8f] font-medium">احجز الآن <i class="fas fa-arrow-left ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Class 2 -->
+                <div class="class-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1820&q=80" alt="Reformer Pilates" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">بيلاتس ريفورمر</h3>
+                            <span class="bg-[#bcb2a3]/20 text-[#bcb2a3] px-3 py-1 rounded-full text-sm">متوسط</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">حصة متقدمة باستخدام جهاز الريفورمر لتحسين القوة والمرونة والتوازن.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#bcb2a3] font-bold">120 ريال</span>
+                            <a href="#contact" class="text-[#bcb2a3] hover:text-[#a89e8f] font-medium">احجز الآن <i class="fas fa-arrow-left ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Class 3 -->
+                <div class="class-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1820&q=80" alt="Reformer Pilates" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">حصة خاصة</h3>
+                            <span class="bg-[#bcb2a3]/20 text-[#bcb2a3] px-3 py-1 rounded-full text-sm">جميع المستويات</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">جلسة فردية مع مدرب متخصص لتحقيق أهدافك الشخصية بسرعة وفعالية.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#bcb2a3] font-bold">200 ريال</span>
+                            <a href="#contact" class="text-[#bcb2a3] hover:text-[#a89e8f] font-medium">احجز الآن <i class="fas fa-arrow-left ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#classes" class="inline-block bg-[#bcb2a3] hover:bg-[#a89e8f] text-white px-8 py-3 rounded-full text-lg transition">عرض جميع الحصص</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-[#bcb2a3]/10">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#bcb2a3]">آراء عملائنا</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">ما يقوله عملاؤنا عن تجربتهم مع هاوس بيلاتس</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"أحب الجو الهادئ في الاستوديو والاهتمام الشخصي من المدربين. البرامج مصممة حسب احتياجات كل شخص. أشعر أنني في أفضل حالاتي بعد كل جلسة."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Layla" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">ليلى عبدالله</h4>
+                            <p class="text-gray-500 text-sm">عميلة منذ 6 أشهر</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"أحب الجو الهادئ في الاستوديو والاهتمام الشخصي من المدربين. البرامج مصممة حسب احتياجات كل شخص. أشعر أنني في أفضل حالاتي بعد كل جلسة."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Mohammed" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">محمد الرشيد</h4>
+                            <p class="text-gray-500 text-sm">عميل منذ سنة</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"أحب الجو الهادئ في الاستوديو والاهتمام الشخصي من المدربين. البرامج مصممة حسب احتياجات كل شخص. أشعر أنني في أفضل حالاتي بعد كل جلسة."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Aisha" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">عائشة سالم</h4>
+                            <p class="text-gray-500 text-sm">عميلة منذ 3 أشهر</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row">
+                <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-[#bcb2a3]">اتصل بنا</h2>
+                    <p class="text-lg text-gray-600 mb-8">نحن هنا للإجابة على جميع استفساراتك ومساعدتك في اختيار البرنامج المناسب لك.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-map-marker-alt text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">العنوان</h4>
+                                <p class="text-gray-600">الدوحة قطر    </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-phone-alt text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">الهاتف</h4>
+                                <p class="text-gray-600"> 6669 6620 </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">البريد الإلكتروني</h4>
+                                <p class="text-gray-600">info@housebilates.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-clock text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">ساعات العمل</h4>
+                                <p class="text-gray-600">من الأحد إلى الخميس: 8 صباحاً - 10 مساءً<br>الجمعة والسبت: 10 صباحاً - 8 مساءً</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-6 text-[#bcb2a3]">احجز جلسة أو استفسر</h3>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-gray-700 mb-2">الاسم الكامل</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 mb-2">البريد الإلكتروني</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]">
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-gray-700 mb-2">رقم الهاتف</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]">
+                            </div>
+                            
+                            <div>
+                                <label for="service" class="block text-gray-700 mb-2">نوع الخدمة</label>
+                                <select id="service" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]">
+                                    <option value="">اختر الخدمة</option>
+                                    <option value="mat">بيلاتس على الأرض</option>
+                                    <option value="reformer">بيلاتس ريفورمر</option>
+                                    <option value="private">حصة خاصة</option>
+                                    <option value="consultation">استشارة</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-700 mb-2">الرسالة</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-[#bcb2a3] text-white px-6 py-3 rounded-lg hover:bg-[#a89e8f] transition">إرسال</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">بيلاتس هاوس </h3>
+                    <p class="text-gray-400">استوديو بيلاتس متكامل يقدم حصص تدريبية بقيادة مدربين محترفين في بيئة مريحة ومجهزة بأحدث المعدات.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">روابط سريعة</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">من نحن</a></li>
+                        <li><a href="#classes" class="text-gray-400 hover:text-white transition">الحصص</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">ساعات العمل</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>الأحد - الخميس: 8 ص - 10 م</li>
+                        <li>الجمعة - السبت: 10 ص - 8 م</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">تابعنا</h4>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="bg-gray-800 hover:bg-[#bcb2a3] w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2023 هاوس بيلاتس. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-[#bcb2a3] text-white w-12 h-12 rounded-full shadow-lg hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Form Submission
+        const contactForm = document.getElementById('contact-form');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send the form data to a server
+            // For this example, we'll just show an alert
+            alert(`شكراً لك ${name}!
+لقد تلقينا استفسارك وسنتواصل معك قريباً.
+
+تفاصيل الاستفسار:
+البريد الإلكتروني: ${email}
+الهاتف: ${phone}
+الخدمة: ${service}
+الرسالة: ${message}`);
+            
+            // Reset form
+            contactForm.reset();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
