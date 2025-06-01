@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"> <!-- Default to LTR, JS will set based on localStorage -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilates House | Comprehensive Pilates Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        /* Add font for English if different, e.g., 'Roboto', 'Open Sans' */
+        /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); */
+
+        body {
+            font-family: 'Tajawal', sans-serif; /* Default to Tajawal, will be overridden by JS for English */
+            scroll-behavior: smooth;
+        }
+
+        /* Adjustments for LTR direction when language is English */
+        html[dir="ltr"] body {
+            /* If you use a different font for English: */
+            /* font-family: 'Roboto', sans-serif; */
+        }
+        
+        /* General RTL/LTR Adjustments */
+        html[dir="ltr"] .nav-link:hover::after {
+            margin: 5px auto 0; /* Centered */
+        }
+
+        html[dir="rtl"] .nav-link:hover::after {
+            margin: 5px auto 0; /* Centered */
+        }
+
+        html[dir="ltr"] .space-x-reverse { 
+            --tw-space-x-reverse: 0 !important; 
+            margin-right: 0px !important;
+            margin-left: calc(var(--tw-space-x-reverse) * 2rem) !important;
+        }
+        html[dir="ltr"] .md\:flex-row-reverse {
+            flex-direction: row;
+        }
+        html[dir="ltr"] .md\:pl-10 {
+            padding-left: 2.5rem;
+            padding-right: 0;
+        }
+        html[dir="ltr"] .mr-3 {
+            margin-right: 0.75rem;
+            margin-left: 0;
+        }
+        html[dir="ltr"] .ml-1 {
+            margin-left: 0.25rem;
+            margin-right: 0;
+        }
+        html[dir="ltr"] .ml-2 {
+            margin-left: 0.5rem;
+            margin-right: 0;
+        }
+        html[dir="ltr"] .mr-2 {
+            margin-right: 0.5rem;
+            margin-left: 0;
+        }
+        html[dir="ltr"] .mr-4 {
+            margin-right: 1rem;
+            margin-left: 0;
+        }
+        html[dir="ltr"] .px-3 { /* For language toggle text, if needed */
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+         }
+        html[dir="ltr"] .text-right {
+            text-align: left;
+        }
+        html[dir="rtl"] .text-right {
+            text-align: right;
+        }
+        /* Specific CSS for testimonial names layout */
+        html[dir="ltr"] .testimonial-details img {
+            margin-right: 1rem; /* Space between image and text in LTR */
+            margin-left: 0;     /* No left margin for LTR */
+        }
+        html[dir="rtl"] .testimonial-details img {
+            margin-left: 1rem; /* Space between image and text in RTL */
+            margin-right: 0;    /* No right margin for RTL */
+        }
+
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://optim.tildacdn.one/tild3030-6534-4661-a631-353538646338/-/format/webp/BKT01025.jpg.webp');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nav-link:hover::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: white;
+            margin: 5px auto 0;
+        }
+        
+        .class-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .mobile-menu {
+            transition: all 0.3s ease;
+        }
+
+        /* Specific styles for pricing tables if needed */
+        .pricing-section .price-card {
+            transition: all 0.3s ease;
+            cursor: default; /* Change cursor back to default for cards that are not links */
+        }
+        .pricing-section .price-card:hover {
+            transform: translateY(-5px); /* Slightly less intense hover for non-link cards */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Styles for the new Profile/Logout hover effect in header */
+        .auth-button-container {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* width: 150px; Remove fixed width, let content determine */
+            max-width: 100%;
+            height: fit-content; /* Ensure container only takes necessary height */
+        }
+        .profile-link-btn {
+            /* padding: 8px 16px;  Consider adding padding directly to this */
+            text-decoration: none;
+            width: 100%;
+            text-align: center;
+            /* Adjustments for better appearance with content */
+            min-width: 120px; /* Minimum width for the button */
+        }
+
+        .sign-out-button-wrapper {
+            position: absolute;
+            top: 100%; /* Position below the profile link */
+            left: 0;
+            right: 0; /* Cover the parent horizontally */
+            margin-top: 4px; /* Small gap */
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .auth-button-container:hover .sign-out-button-wrapper {
+            opacity: 1;
+            visibility: visible;
+        }
+        .sign-out-button-wrapper a {
+            width: 100%; /* Make the logout button fill its wrapper */
+            text-align: center;
+        }
+        /* Mobile specific style for container */
+        @media (max-width: 767px) {
+            .auth-button-container {
+                width: 100%; /* Full width on mobile */
+            }
+        }
+        /* Custom header styles */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-link {
+            font-size: 1.125rem;
+            padding: 0.5rem 0;
+        }
+        .header-logo {
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+        /* Make mobile menu full width */
+        #mobile-menu {
+            width: 100%;
+        }
+         /* Specific styles for testimonial names */
+        .testimonial-details {
+            display: flex;
+            align-items: center; /* Ensures vertical alignment of image and text */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 header-content">
+            <div class="flex items-center">
+                <a href="#home" class="header-logo text-[#bcb2a3]" data-i18n="hero_title">Pilates House</a>
+            </div>
+            
+            <nav class="hidden md:flex header-nav">
+                <a href="#home" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition" data-i18n="home">Home</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition" data-i18n="about_us">About Us</a>
+                <a href="#classes" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition" data-i18n="classes">Classes</a>
+                <a href="#prices" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition" data-i18n="prices_packages">Prices & Packages</a>
+                <a href="#testimonials" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition" data-i18n="testimonials">Testimonials</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-[#bcb2a3] transition" data-i18n="contact_us">Contact Us</a>
+            </nav>
+            
+            <div class="hidden md:flex header-buttons items-center gap-4"> 
+                <!-- New Combined Auth/Booking Logic Container for Desktop -->
+                <div id="headerAuthActions" class="flex gap-4 items-center">
+                    <!-- Content injected by JS -->
+                </div>
+
+                <!-- Language Switcher (always present) -->
+                <button id="language-switcher" class="px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition text-lg">English</button>
+            </div>
+            
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white w-full absolute left-0 right-0 shadow-lg top-[72px]"> <!-- Added top-[72px] to avoid overlapping header -->
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-[#bcb2a3]" data-i18n="home">Home</a>
+                <a href="#about" class="block py-2 text-gray-700 hover:text-[#bcb2a3]" data-i18n="about_us">About Us</a>
+                <a href="#classes" class="block py-2 text-gray-700 hover:text-[#bcb2a3]" data-i18n="classes">Classes</a>
+                <a href="#prices" class="block py-2 text-gray-700 hover:text-[#bcb2a3]" data-i18n="prices_packages">Prices & Packages</a>
+                <a href="#testimonials" class="block py-2 text-gray-700 hover:text-[#bcb2a3]" data-i18n="testimonials">Testimonials</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-[#bcb2a3]" data-i18n="contact_us">Contact Us</a>
+                
+                <!-- Mobile Language Switcher and Combined Auth/Booking -->
+                <div class="flex flex-col gap-4 mt-4" id="mobileHeaderAuthActions">
+                    <!-- Content injected by JS -->
+                    <button id="mobile-language-switcher" class="px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition text-lg w-full">English</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero min-h-screen flex items-center justify-center text-white pt-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6" data-i18n="hero_title">Pilates House</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto" data-i18n="hero_subtitle">Discover your body's strength with professional Pilates classes in a comfortable environment equipped with the latest gear.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#classes" class="bg-[#bcb2a3] hover:bg-[#a89e8f] text-white px-8 py-3 rounded-full text-lg transition" data-i18n="explore_classes">Explore Classes</a>
+                <button
+                    class="book-package-btn bg-white hover:bg-gray-100 text-[#bcb2a3] px-8 py-3 rounded-full text-lg transition"
+                    data-package-name="package_trial_session"
+                    data-sessions-total="1"
+                    data-duration-days="7"
+                    data-i18n="book_now" 
+                >Book Now</button>
+            </div>
+        </div>
+    </section>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-10 md:mb-0 md:pl-10">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-[#bcb2a3]" data-i18n="about_us_title">About Us</h2>
+        <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="about_us_p1">
+          Pilates House is a comprehensive studio offering Pilates classes led by certified professional trainers. We believe that Pilates is not just an exercise but a lifestyle that enhances strength, flexibility, and balance.
+        </p>
+        <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="about_us_p2">
+          At Pilates House, we provide a unique experience that combines authentic Pilates traditions with modern techniques to ensure the best results for all levels.
+        </p>
+        <div class="flex flex-wrap gap-4 mt-8">
+          <div class="flex items-center">
+            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-3">
+              <i class="fas fa-check text-[#bcb2a3]"></i>
+            </div>
+            <span data-i18n="certified_trainers">Certified Trainers</span>
+          </div>
+          <div class="flex items-center">
+            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-3">
+              <i class="fas fa-check text-[#bcb2a3]"></i>
+            </div>
+            <span data-i18n="modern_equipment">Modern Equipment</span>
+          </div>
+          <div class="flex items-center">
+            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-3">
+              <i class="fas fa-check text-[#bcb2a3]"></i>
+            </div>
+            <span data-i18n="personal_programs">Personal Programs</span>
+          </div>
+        </div>
+      </div>
+      <div class="md:w-1/2">
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Image 1: Benefits of Pilates -->
+          <div class="rounded-lg overflow-hidden shadow-lg h-[220px]">
+            <img src="https://vaurapilates.com/wp-content/uploads/2017/09/BENEFITS-OF-PILATES.jpg" 
+                 alt="Woman demonstrating Pilates benefits" 
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+          
+          <!-- Image 2: Reformer Pilates -->
+          <div class="rounded-lg overflow-hidden shadow-lg h-[220px]">
+            <img src="https://www.hetgymlokaal.nl/uploads/pilates-web-3.jpg?_cchid=9e8fa0d34dfc390d287c14aa3cf4fe91" 
+                 alt="Woman doing Reformer Pilates" 
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+          
+          <!-- Image 3: Mat Pilates -->
+          <div class="rounded-lg overflow-hidden shadow-lg h-[220px]">
+            <img src="https://thepilatesclass.com/cdn/shop/articles/9C3FD9FF-41F8-406A-8578-D9C5C51DEDC9.jpg?v=1676410430" 
+                 alt="Woman doing Mat Pilates" 
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+          
+          <!-- Image 4: Group Class -->
+          <div class="rounded-lg overflow-hidden shadow-lg h-[220px]">
+            <img src="https://ca-times.brightspotcdn.com/dims4/default/603dd52/2147483647/strip/true/crop/4488x2992+0+0/resize/1200x800!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fa9%2Fe5%2F43da83984ca5a737cd1abe74746a%2Fistock-1163093032.jpg" 
+                 alt="Group Pilates class" 
+                 class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Classes Section (Already existing, but now it references prices for single classes) -->
+    <section id="classes" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#bcb2a3]" data-i18n="our_classes_title">Our Classes</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-i18n="our_classes_subtitle">We offer a variety of Pilates classes suitable for all levels and goals.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Class 1: Mat Pilates -->
+                <div class="class-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Pilates Mat Class" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold" data-i18n="mat_pilates_title">Mat Pilates</h3>
+                            <span class="bg-[#bcb2a3]/20 text-[#bcb2a3] px-3 py-1 rounded-full text-sm" data-i18n="mat_pilates_level">Beginner - Intermediate</span>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-i18n="mat_pilates_desc">A fundamental class focusing on basic Pilates movements using only a mat, ideal for beginners and enhancing body awareness.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#bcb2a3] font-bold" data-i18n="75_sar_per_session" data-i18n-arg-0="75">75 SAR / per session</span>
+                            <button
+                                class="book-package-btn text-[#bcb2a3] hover:text-[#a89e8f] font-medium"
+                                data-package-name="package_mat_single_session"
+                                data-sessions-total="1"
+                                data-duration-days="30"
+                                data-i18n="book_now_btn"
+                            >Book Now <i class="fas fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Class 2: Reformer Pilates -->
+                <div class="class-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1820&q=80" alt="Reformer Pilates" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold" data-i18n="reformer_pilates_title">Reformer Pilates</h3>
+                            <span class="bg-[#bcb2a3]/20 text-[#bcb2a3] px-3 py-1 rounded-full text-sm" data-i18n="reformer_pilates_level">Intermediate - Advanced</span>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-i18n="reformer_pilates_desc">An advanced class using the Reformer machine for added resistance, to improve strength, flexibility, balance, and muscle definition.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#bcb2a3] font-bold" data-i18n="120_sar_per_session" data-i18n-arg-0="120">120 SAR / per session</span>
+                            <button
+                                class="book-package-btn text-[#bcb2a3] hover:text-[#a89e8f] font-medium"
+                                data-package-name="package_reformer_single_session"
+                                data-sessions-total="1"
+                                data-duration-days="30"
+                                data-i18n="book_now_btn"
+                            >Book Now <i class="fas fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Class 3: Private Session -->
+                <div class="class-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300 hover:shadow-lg">
+                    <div class="h-56 overflow-hidden">
+                        <img src="https://ca-times.brightspotcdn.com/dims4/default/603dd52/2147483647/strip/true/crop/4488x2992+0+0/resize/1200x800!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fa9%2Fe5%2F43da83984ca5a737cd1abe74746a%2Fistock-1163093032.jpg" 
+                             alt="Group Pilates class" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold" data-i18n="private_session_title">Private Session</h3>
+                            <span class="bg-[#bcb2a3]/20 text-[#bcb2a3] px-3 py-1 rounded-full text-sm" data-i18n="private_session_level">All Levels</span>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-i18n="private_session_desc">An individual session tailored to your goals, with full guidance and supervision from the trainer to enhance results.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#bcb2a3] font-bold" data-i18n="200_sar_per_session" data-i18n-arg-0="200">200 SAR / per session</span>
+                            <button
+                                class="book-package-btn text-[#bcb2a3] hover:text-[#a89e8f] font-medium"
+                                data-package-name="package_private_single_session"
+                                data-sessions-total="1"
+                                data-duration-days="30"
+                                data-i18n="book_now_btn"
+                            >Book Now <i class="fas fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#prices" class="inline-block bg-[#bcb2a3] hover:bg-[#a89e8f] text-white px-8 py-3 rounded-full text-lg transition" data-i18n="explore_all_prices">Explore All Prices & Packages</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Section: Prices and Packages -->
+    <section id="prices" class="py-20 bg-white pricing-section">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#bcb2a3]" data-i18n="prices_title">Prices & Packages</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-i18n="prices_subtitle">Choose the right package for a complete Pilates experience.</p>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-8 text-[#bcb2a3] text-center" data-i18n="intro_offer_new_clients">Introductory Offer (New Clients Only)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+                <!-- Introductory Offer Mat -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md border border-[#bcb2a3]/30 text-center">
+                    <h4 class="text-xl font-bold mb-4 text-[#bcb2a3]" data-i18n="mat_pilates_sessions_count" data-i18n-arg-0="3">3 Mat Pilates Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        180 <span class="text-2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="sessions_level_beginner_intermediate">Beginner to Intermediate levels</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_one_month">Expiry Date: 1 Month</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block bg-[#bcb2a3] hover:bg-[#a89e8f] text-white px-8 py-3 rounded-full text-lg transition"
+                        data-package-name="package_intro_mat"
+                        data-sessions-total="3"
+                        data-duration-days="30"
+                        data-i18n="book_your_sessions_now"
+                    >Book Your Sessions Now</button>
+                </div>
+
+                <!-- Introductory Offer Reformer -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md border border-[#bcb2a3]/30 text-center">
+                    <h4 class="text-xl font-bold mb-4 text-[#bcb2a3]" data-i18n="reformer_pilates_sessions_count" data-i18n-arg-0="3">3 Reformer Pilates Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        300 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="sessions_level_beginner_intermediate">Beginner to Intermediate levels</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_one_month">Expiry Date: 1 Month</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block bg-[#bcb2a3] hover:bg-[#a89e8f] text-white px-8 py-3 rounded-full text-lg transition"
+                        data-package-name="package_intro_reformer"
+                        data-sessions-total="3"
+                        data-duration-days="30"
+                        data-i18n="book_your_sessions_now"
+                    >Book Your Sessions Now</button>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-8 text-[#bcb2a3] text-center" data-i18n="mat_pilates_packages_title">Mat Pilates Packages</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+                <!-- Mat Pilates 5 Classes -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md text-center">
+                    <h4 class="text-xl font-bold mb-4" data-i18n="mat_pilates_sessions_count" data-i18n-arg-0="5">5 Mat Pilates Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        350 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <p class="text-green-600 font-semibold mb-6" data-i18n="save_sar" data-i18n-arg-0="25">Save 25 SAR</p>
+                    <ul class="text-gray-700 space-y-2 mb-8"><li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="sessions_level_beginner_intermediate">Beginner to Intermediate levels</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_two_months">Expiry Date: 2 Months</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block border border-[#bcb2a3] text-[#bcb2a3] px-8 py-3 rounded-full text-lg hover:bg-[#bcb2a3] hover:text-white transition"
+                        data-package-name="package_mat_5"
+                        data-sessions-total="5"
+                        data-duration-days="60"
+                        data-i18n="buy_package"
+                     >Buy Package</button>
+                </div>
+
+                <!-- Mat Pilates 10 Classes -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md text-center">
+                    <h4 class="text-xl font-bold mb-4" data-i18n="mat_pilates_sessions_count" data-i18n-arg-0="10">10 Mat Pilates Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        650 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <p class="text-green-600 font-semibold mb-6" data-i18n="save_sar" data-i18n-arg-0="100">Save 100 SAR</p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="sessions_level_all">All levels</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_three_months">Expiry Date: 3 Months</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block border border-[#bcb2a3] text-[#bcb2a3] px-8 py-3 rounded-full text-lg hover:bg-[#bcb2a3] hover:text-white transition"
+                        data-package-name="package_mat_10"
+                        data-sessions-total="10"
+                        data-duration-days="90"
+                        data-i18n="buy_package"
+                    >Buy Package</button>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-8 text-[#bcb2a3] text-center" data-i18n="reformer_pilates_packages_title">Reformer Pilates Packages</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+                <!-- Reformer Pilates 5 Classes -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md text-center">
+                    <h4 class="text-xl font-bold mb-4" data-i18n="reformer_pilates_sessions_count" data-i18n-arg-0="5">5 Reformer Pilates Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        550 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <p class="text-green-600 font-semibold mb-6" data-i18n="save_sar" data-i18n-arg-0="50">Save 50 SAR</p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="sessions_level_intermediate_advanced">Intermediate to Advanced levels</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_two_months">Expiry Date: 2 Months</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block border border-[#bcb2a3] text-[#bcb2a3] px-8 py-3 rounded-full text-lg hover:bg-[#bcb2a3] hover:text-white transition"
+                        data-package-name="package_reformer_5"
+                        data-sessions-total="5"
+                        data-duration-days="60"
+                        data-i18n="buy_package"
+                    >Buy Package</button>
+                </div>
+
+                <!-- Reformer Pilates 10 Classes -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md text-center">
+                    <h4 class="text-xl font-bold mb-4" data-i18n="reformer_pilates_sessions_count" data-i18n-arg-0="10">10 Reformer Pilates Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        1000 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <p class="text-green-600 font-semibold mb-6" data-i18n="save_sar" data-i18n-arg-0="200">Save 200 SAR</p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="sessions_level_intermediate_advanced">Intermediate to Advanced levels</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_three_months">Expiry Date: 3 Months</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block border border-[#bcb2a3] text-[#bcb2a3] px-8 py-3 rounded-full text-lg hover:bg-[#bcb2a3] hover:text-white transition"
+                        data-package-name="package_reformer_10"
+                        data-sessions-total="10"
+                        data-duration-days="90"
+                        data-i18n="buy_package"
+                    >Buy Package</button>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-8 text-[#bcb2a3] text-center" data-i18n="private_sessions_packages_title">Private Sessions Packages</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Private Session 5 Classes -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md text-center">
+                    <h4 class="text-xl font-bold mb-4" data-i18n="private_session_classes_count" data-i18n-arg-0="5">5 Private Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        900 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <p class="text-green-600 font-semibold mb-6" data-i18n="save_sar" data-i18n-arg-0="100">Save 100 SAR</p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="custom_personal_program">Custom & Personal Program</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_two_months">Expiry Date: 2 Months</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block border border-[#bcb2a3] text-[#bcb2a3] px-8 py-3 rounded-full text-lg hover:bg-[#bcb2a3] hover:text-white transition"
+                        data-package-name="package_private_5"
+                        data-sessions-total="5"
+                        data-duration-days="60"
+                        data-i18n="buy_package"
+                    >Buy Package</button>
+                </div>
+
+                <!-- Private Session 10 Classes -->
+                <div class="price-card bg-gray-50 p-8 rounded-xl shadow-md text-center">
+                    <h4 class="text-xl font-bold mb-4" data-i18n="private_session_classes_count" data-i18n-arg-0="10">10 Private Sessions</h4>
+                    <p class="text-4xl font-bold text-gray-900 mb-6">
+                        1700 <span class="2xl text-gray-600" data-i18n="sar">SAR</span>
+                    </p>
+                    <p class="text-green-600 font-semibold mb-6" data-i18n="save_sar" data-i18n-arg-0="300">Save 300 SAR</p>
+                    <ul class="text-gray-700 space-y-2 mb-8">
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="custom_personal_program">Custom & Personal Program</span></li>
+                        <li class="flex items-center justify-center"><i class="fas fa-check-circle text-green-500 ml-2"></i> <span data-i18n="expiry_date_three_months">Expiry Date: 3 Months</span></li>
+                    </ul>
+                    <button
+                        class="book-package-btn inline-block border border-[#bcb2a3] text-[#bcb2a3] px-8 py-3 rounded-full text-lg hover:bg-[#bcb2a3] hover:text-white transition"
+                        data-package-name="package_private_10"
+                        data-sessions-total="10"
+                        data-duration-days="90"
+                        data-i18n="buy_package"
+                    >Buy Package</button>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-gray-600 text-lg" data-i18n="contact_for_more_details">For more details or to inquire about custom packages, <a href="#contact" class="text-[#bcb2a3] hover:underline" data-i18n="contact_us_link">Contact Us</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-[#bcb2a3]/10">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#bcb2a3]" data-i18n="testimonials_title">Our Clients Say</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-i18n="testimonials_subtitle">What our clients say about their experience with Pilates House</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6" data-i18n="testimonial_1_quote">"I love the calm atmosphere of the studio and the personalized attention from the trainers. The programs are tailored to individual needs. I feel my best after each session."</p>
+                    <div class="testimonial-details flex flex-row-reverse md:flex-row items-center justify-between"> <!-- Added flex for image/text alignment -->
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Female Client" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-bold" data-i18n="layla_abdullah">Layla Abdullah</h4>
+                            <p class="text-gray-500 text-sm" data-i18n="client_since" data-i18n-arg-0="6">Client since 6 months ago</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6" data-i18n="testimonial_2_quote">"The Reformer classes here are excellent! I have seen great improvement in my strength and flexibility. The trainers are highly professional and pay attention to every detail."</p>
+                    <div class="testimonial-details flex flex-row-reverse md:flex-row items-center justify-between">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Male Client" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-bold" data-i18n="mohammed_alrasheed">Mohammed Al-Rasheed</h4>
+                            <p class="text-gray-500 text-sm" data-i18n="client_since_year">Client since 1 year ago</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6" data-i18n="testimonial_3_quote">"The environment is comfortable and supportive, and the trainers focus on proper breathing techniques and movements. I highly recommend it to anyone looking to improve their health and fitness."</p>
+                    <div class="testimonial-details flex flex-row-reverse md:flex-row items-center justify-between">
+                        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Another Female Client" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-bold" data-i18n="aisha_salem">Aisha Salem</h4>
+                            <p class="text-gray-500 text-sm" data-i18n="client_since" data-i18n-arg-0="3">Client since 3 months ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row">
+                <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-[#bcb2a3]" data-i18n="contact_section_title">Contact Us</h2>
+                    <p class="text-lg text-gray-600 mb-8" data-i18n="contact_section_subtitle">We are here to answer all your inquiries and help you choose the right program for you.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-map-marker-alt text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1" data-i18n="address_label">Address</h4>
+                                <p class="text-gray-600" data-i18n="address_value">Doha, Qatar</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-phone-alt text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1" data-i18n="phone">Phone</h4>
+                                <p class="text-gray-600">+974 6669 6620</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1" data-i18n="email">Email</h4>
+                                <p class="text-gray-600">pilateshouse@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#bcb2a3]/20 p-3 rounded-full mr-4">
+                                <i class="fas fa-clock text-[#bcb2a3]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1" data-i18n="working_hours">Working Hours</h4>
+                                <p class="text-gray-600" data-i18n="sun_thu">Sunday - Thursday: 8 AM - 10 PM</p>
+                                <p class="text-gray-600" data-i18n="fri_sat">Friday - Saturday: 10 AM - 8 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-6 text-[#bcb2a3]" data-i18n="book_or_inquire">Book a Session or Inquire</h3>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-gray-700 mb-2" data-i18n="full_name">Full Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]" required>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 mb-2" data-i18n="your_email">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]" required>
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-gray-700 mb-2" data-i18n="phone_number">Phone Number</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]">
+                            </div>
+                            
+                            <div>
+                                <label for="service" class="block text-gray-700 mb-2" data-i18n="service_type">Service Type</label>
+                                <select id="service" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]" required>
+                                    <option value="" data-i18n="select_service">Select Service</option>
+                                    <option value="mat-single" data-i18n="service_mat_single">Mat Pilates (1 session)</option>
+                                    <option value="reformer-single" data-i18n="service_reformer_single">Reformer Pilates (1 session)</option>
+                                    <option value="private-single" data-i18n="service_private_single">Private Session (1 session)</option>
+                                    <option value="intro-mat" data-i18n="service_intro_mat">Introductory Offer (3 Mat Pilates sessions)</option>
+                                    <option value="intro-reformer" data-i18n="service_intro_reformer">Introductory Offer (3 Reformer Pilates sessions)</option>
+                                    <option value="package-mat-5" data-i18n="service_package_mat_5">Mat Pilates Package (5 sessions)</option>
+                                    <option value="package-mat-10" data-i18n="service_package_mat_10">Mat Pilates Package (10 sessions)</option>
+                                    <option value="package-reformer-5" data-i18n="service_package_reformer_5">Reformer Pilates Package (5 sessions)</option>
+                                    <option value="package-reformer-10" data-i18n="service_package_reformer_10">Reformer Pilates Package (10 sessions)</option>
+                                    <option value="package-private-5" data-i18n="service_package_private_5">Private Sessions Package (5 sessions)</option>
+                                    <option value="package-private-10" data-i18n="service_package_private_10">Private Sessions Package (10 sessions)</option>
+                                    <option value="general-inquiry" data-i18n="general_inquiry">General Inquiry</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-700 mb-2" data-i18n="message_label">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bcb2a3]"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-[#bcb2a3] text-white px-6 py-3 rounded-lg hover:bg-[#a89e8f] transition" data-i18n="send">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4" data-i18n="hero_title">Pilates House</h3>
+                    <p class="text-gray-400" data-i18n="footer_desc">A comprehensive Pilates studio offering training sessions led by professional trainers in a comfortable environment equipped with the latest equipment.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4" data-i18n="quick_links">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition" data-i18n="home">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition" data-i18n="about_us">About Us</a></li>
+                        <li><a href="#classes" class="text-gray-400 hover:text-white transition" data-i18n="classes">Classes</a></li>
+                        <li><a href="#prices" class="text-gray-400 hover:text-white transition" data-i18n="prices_packages">Prices & Packages</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition" data-i18n="contact_us">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4" data-i18n="working_hours_footer">Working Hours</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li data-i18n="sun_thu">Sunday - Thursday: 8 AM - 10 PM</li>
+                        <li data-i18n="fri_sat">Friday - Saturday: 10 AM - 8 PM</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4" data-i18n="follow_us">Follow Us</h4>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="https://www.instagram.com/pilateshouse.qtr/" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-[#bcb2a3] w-10 h-10 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 <span data-i18n="hero_title">Pilates House</span>. <span data-i18n="all_rights_reserved">All Rights Reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-[#bcb2a3] text-white w-12 h-12 rounded-full shadow-lg hidden opacity-0 transition-opacity duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Custom Modal Container -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full transform -translate-y-4 opacity-0 transition-all duration-300 scale-95" id="modalContent">
+            <h3 class="text-xl font-bold text-[#bcb2a3] mb-4 text-center" id="modalTitle"></h3>
+            <p class="text-gray-700 mb-6 text-center" id="modalMessage"></p>
+            <div class="flex justify-center gap-4" id="modalButtons">
+                <!-- Buttons will be injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the language file first -->
+    <script src="languages.js"></script>
+    <script>
+        // Global modal functions (should be the same across all HTML files using this modal)
+        const customModal = document.getElementById('customModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalButtons = document.getElementById('modalButtons');
+
+        function showModal(title, message, buttons) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalButtons.innerHTML = ''; // Clear previous buttons
+
+            buttons.forEach(btn => {
+                const buttonElement = document.createElement('button');
+                buttonElement.textContent = btn.text;
+                buttonElement.className = `px-6 py-2 rounded-lg font-medium transition ${btn.className || 'bg-[#bcb2a3] text-white hover:bg-[#a89e8f]'}`;
+                buttonElement.onclick = () => {
+                    hideModal(); // Hide modal on button click
+                    if (btn.callback) { // Check for callback
+                        btn.callback(btn.value); // Pass value if using confirmation type (true/false)
+                    }
+                };
+                modalButtons.appendChild(buttonElement);
+            });
+
+            customModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('-translate-y-4', 'opacity-0', 'scale-95');
+            modalContent.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+        }
+
+        function hideModal() {
+            customModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.add('-translate-y-4', 'opacity-0', 'scale-95');
+            modalContent.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+        }
+
+        // --- Language Loading and Application ---
+        let currentLanguage = localStorage.getItem('siteLanguage') || 'ar'; // Default language
+
+        function loadLanguage(lang) {
+            const htmlElement = document.documentElement;
+            htmlElement.setAttribute('lang', lang);
+            htmlElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            localStorage.setItem('siteLanguage', lang);
+            currentLanguage = lang; // Update currentLanguage variable
+
+            // Translate page title
+            const pageTitleElement = document.querySelector('title');
+            if (pageTitleElement && pageTitleElement.dataset.i18n) {
+                pageTitleElement.textContent = getTranslation(pageTitleElement.dataset.i18n);
+            }
+
+
+            // Select all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                const replacements = {};
+
+                // Handle data-i18n-arg-X for placeholders
+                for (let i = 0; typeof element.dataset[`i18nArg${i}`] !== 'undefined'; i++) {
+                    replacements[`arg${i}`] = element.dataset[`i18nArg${i}`];
+                }
+
+                if (key === "75_sar_per_session") {
+                    element.textContent = replacements.arg0 + ' ' + getTranslation('sar_per_session');
+                } else if (key === "120_sar_per_session") {
+                    element.textContent = replacements.arg0 + ' ' + getTranslation('sar_per_session');
+                } else if (key === "200_sar_per_session") {
+                    element.textContent = replacements.arg0 + ' ' + getTranslation('sar_per_session');
+                } else if (key === "mat_pilates_sessions_count" || key === "reformer_pilates_sessions_count" || key === "private_session_classes_count") {
+                     element.textContent = getTranslation(key, { count: replacements.arg0 });
+                } else if (key === "save_sar") {
+                    element.textContent = getTranslation(key, { amount: replacements.arg0 });
+                } else if (key === "client_since") {
+                    element.textContent = getTranslation(key, { months: replacements.arg0 });
+                }
+                 else if (key === 'address_value' ) { // Special handling for address value
+                    element.textContent = getTranslation(key);
+                }
+                 else if (key.startsWith("testimonial_") && key.endsWith("_quote")) {
+                    element.textContent = getTranslation(key); // Assuming these quotes are direct translations
+                }
+                 else {
+                    element.textContent = getTranslation(key, replacements);
+                }
+            });
+
+            // Update language switcher button text
+            const languageSwitcher = document.getElementById('language-switcher');
+            const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher');
+            if (languageSwitcher) {
+                languageSwitcher.textContent = lang === 'ar' ? 'English' : 'العربية';
+            }
+            if (mobileLanguageSwitcher) {
+                mobileLanguageSwitcher.textContent = lang === 'ar' ? 'English' : 'العربية';
+            }
+
+            // Update contact form options if applicable (they have data-i18n attributes now)
+            const serviceSelect = document.getElementById('service');
+            if (serviceSelect) {
+                // Clear existing options then rebuild in translated version if needed, or just update textContent
+                Array.from(serviceSelect.options).forEach(option => {
+                    if (option.dataset.i18n) {
+                         const key = option.dataset.i18n;
+                         const replacements = {};
+                         // Pass data-i18n-arg-X values to getTranslation as arguments
+                         for (let i = 0; typeof option.dataset[`i18nArg${i}`] !== 'undefined'; i++) {
+                            replacements[`arg${i}`] = option.dataset[`i18nArg${i}`];
+                         }
+                        option.textContent = getTranslation(key, replacements); // Re-translate option text
+                    }
+                });
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial language load
+            loadLanguage(currentLanguage);
+
+            // Event listener for language switcher
+            document.getElementById('language-switcher').addEventListener('click', () => {
+                const newLang = currentLanguage === 'ar' ? 'en' : 'ar';
+                loadLanguage(newLang);
+                updateHeaderAuthActions(); // Re-render auth actions after language change
+            });
+            document.getElementById('mobile-language-switcher').addEventListener('click', () => {
+                const newLang = currentLanguage === 'ar' ? 'en' : 'ar';
+                loadLanguage(newLang);
+                updateHeaderAuthActions(); // Re-render auth actions after language change
+                if (mobileMenu) mobileMenu.classList.add('hidden'); // Close mobile menu after switching
+            });
+
+            // --- Header Auth/Booking Actions Logic ---
+            function updateHeaderAuthActions() {
+                const headerAuthActionsContainer = document.getElementById('headerAuthActions');
+                const mobileHeaderAuthActionsContainer = document.getElementById('mobileHeaderAuthActions');
+
+                // Clear existing buttons
+                headerAuthActionsContainer.innerHTML = ''; 
+                // Clear dynamic content for mobile header (keep language switcher if it's separate)
+                const mobileLangSwitcher = mobileHeaderAuthActionsContainer.querySelector('#mobile-language-switcher');
+                mobileHeaderAuthActionsContainer.innerHTML = '';
+                if (mobileLangSwitcher) {
+                    mobileHeaderAuthActionsContainer.appendChild(mobileLangSwitcher);
+                }
+
+                const currentUser = localStorage.getItem('currentUser');
+                const commonButtonPaddings = `px-6 py-2 rounded-full transition inline-flex items-center justify-center`;
+
+                // Set flex direction based on language
+                if (currentLanguage === 'ar') {
+                    headerAuthActionsContainer.style.flexDirection = 'row-reverse';
+                    mobileHeaderAuthActionsContainer.style.flexDirection = 'column-reverse'; // Column-reverse for mobile for top-to-bottom display
+                } else {
+                    headerAuthActionsContainer.style.flexDirection = 'row';
+                    mobileHeaderAuthActionsContainer.style.flexDirection = 'column';
+                }
+
+                if (currentUser && currentUser !== 'null') {
+                    // User is logged in: Show Profile button (with Logout)
+                    const userObj = JSON.parse(currentUser);
+                    const userName = userObj.name || userObj.username || getTranslation('my_profile');
+
+                    // Profile Link Button
+                    const profileLink = document.createElement('a');
+                    profileLink.href = 'profile.html';
+                    profileLink.className = `profile-link-btn bg-[#bcb2a3] text-white hover:bg-[#a89e8f] text-lg ${commonButtonPaddings}`;
+                    profileLink.textContent = userName;
+
+                    // Logout Button (nested inside profile button hover)
+                    const signOutLink = document.createElement('a');
+                    signOutLink.href = '#';
+                    signOutLink.className = `bg-red-500 text-white hover:bg-red-600 ${commonButtonPaddings} w-full text-lg`;
+                    signOutLink.textContent = getTranslation('logout');
+                    signOutLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showModal(
+                            getTranslation('confirm_logout_title'),
+                            getTranslation('confirm_logout_message'),
+                            [
+                                { text: getTranslation('cancel'), value: false, className: 'bg-gray-300 text-gray-800 hover:bg-gray-400' },
+                                { text: getTranslation('logout_btn'), value: true, callback: () => {
+                                    localStorage.removeItem('currentUser');
+                                    localStorage.removeItem('userToken');
+                                    localStorage.removeItem('userPackages');
+                                    localStorage.removeItem('pendingPackageBook');
+                                    localStorage.removeItem('justSignedUp');
+                                    updateHeaderAuthActions(); // Update header
+                                    showModal(getTranslation('success'), getTranslation('logout_success'), [ { text: getTranslation('ok_btn'), callback: () => window.location.href = 'index.html' } ]);
+                                }, className: 'bg-red-500 text-white hover:bg-red-600' }
+                            ]
+                        );
+                    });
+
+                    // Container for Profile and nested Logout
+                    const authButtonContainer = document.createElement('div');
+                    authButtonContainer.className = `auth-button-container`;
+                    authButtonContainer.appendChild(profileLink);
+
+                    const signOutWrapperDiv = document.createElement('div');
+                    signOutWrapperDiv.className = `sign-out-button-wrapper`;
+                    signOutWrapperDiv.appendChild(signOutLink);
+                    authButtonContainer.appendChild(signOutWrapperDiv);
+
+                    // Append to desktop container
+                    headerAuthActionsContainer.appendChild(authButtonContainer);
+
+                    // Append to mobile container (clone and add mobile-specific styles)
+                    const mobileAuthBtnContainer = authButtonContainer.cloneNode(true);
+                    mobileAuthBtnContainer.classList.add('w-full');
+                    mobileAuthBtnContainer.querySelector('.profile-link-btn').classList.add('w-full', 'py-3');
+                    // Re-attach event listener for the cloned logout button
+                    mobileAuthBtnContainer.querySelector('.sign-out-button-wrapper a').addEventListener('click', signOutLink.onclick);
+                    
+                    mobileHeaderAuthActionsContainer.insertBefore(mobileAuthBtnContainer, mobileHeaderAuthActionsContainer.firstChild);
+
+                } else {
+                    // User is logged out: Show "Book Now" (links to auth page)
+                    const bookNowHeaderBtn = document.createElement('a');
+                    bookNowHeaderBtn.href = "auth.html?action=signup"; // Links to signup/login page
+                    bookNowHeaderBtn.className = `bg-[#bcb2a3] text-white hover:bg-[#a89e8f] text-lg ${commonButtonPaddings}`;
+                    bookNowHeaderBtn.textContent = getTranslation('book_now');
+                    
+                    // Append to desktop container
+                    headerAuthActionsContainer.appendChild(bookNowHeaderBtn);
+
+                    // Append to mobile container (clone and add mobile-specific styling)
+                    const mobileBookNowHeaderBtn = bookNowHeaderBtn.cloneNode(true);
+                    mobileBookNowHeaderBtn.classList.add('w-full', 'py-3');
+                    mobileHeaderAuthActionsContainer.insertBefore(mobileBookNowHeaderBtn, mobileHeaderAuthActionsContainer.firstChild);
+                }
+                // Always re-apply translations after innerHTML updates
+                loadLanguage(currentLanguage);
+            }
+            
+            // Listen for changes in localStorage currentUser (e.g., login/logout from another tab/window)
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'currentUser') {
+                    updateHeaderAuthActions(); // Re-render header if login status changes
+                }
+            });
+
+            // --- Package Booking Logic ---
+            async function bookPackage(packageDetails) {
+                const currentUser = localStorage.getItem('currentUser');
+                const userObj = currentUser && currentUser !== 'null' ? JSON.parse(currentUser) : null;
+                const API_BASE_URL = window.location.origin;
+
+                if (userObj && userObj.id) {
+                    const userId = userObj.id;
+                    const { packageNameKey, sessionsTotal, durationDays } = packageDetails;
+
+                    // Get translated package name for the modal from the KEY
+                    const translatedPackageName = getTranslation(packageNameKey);
+                    
+                    showModal(
+                        getTranslation('confirm_booking_title'),
+                        getTranslation('confirm_booking_message', { packageName: translatedPackageName }),
+                        [
+                            { text: getTranslation('cancel'), value: false, className: 'bg-gray-300 text-gray-800 hover:bg-gray-400' },
+                            { text: getTranslation('confirm_ok'), value: true, callback: async (confirmed) => {
+                                if (confirmed) {
+                                    try {
+                                        // Send the original packageNameKey to the backend
+                                        const response = await fetch(`${API_BASE_URL}/api/user/packages`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ userId, packageName: packageNameKey, sessionsTotal, durationDays })
+                                        });
+
+                                        const data = await response.json();
+
+                                        if (response.ok) {
+                                            showModal(getTranslation('success'), data.message || getTranslation('package_booked_success'), [{ text: getTranslation('ok_btn'), callback: () => {
+                                                window.location.href = 'profile.html'; 
+                                            }}]);
+                                        } else {
+                                            showModal(getTranslation('error'), data.message === 'لقد قمت بالفعل بحجز هذا العرض التعريفي.' ? getTranslation('intro_offer_already_booked') : (data.message || getTranslation('package_booking_error')), [{ text: getTranslation('ok_btn') }]);
+                                            console.error('API Error:', data);
+                                        }
+                                    } catch (error) {
+                                        console.error('Network Error:', error);
+                                        showModal(getTranslation('error'), getTranslation('server_connection_error'), [{ text: getTranslation('ok_btn') }]);
+                                    }
+                                }
+                            } }
+                        ]
+                    );
+
+                } else {
+                    showModal(
+                        getTranslation('login_required_title'),
+                        getTranslation('login_required_message'),
+                        [
+                            { text: getTranslation('cancel'), value: false, className: 'bg-gray-300 text-gray-800 hover:bg-gray-400' },
+                            { text: getTranslation('login_btn'), value: true, callback: (proceed) => {
+                                if (proceed) {
+                                    localStorage.setItem('pendingPackageBook', JSON.stringify(packageDetails));
+                                    window.location.href = 'auth.html?action=signup'; 
+                                }
+                            } }
+                        ]
+                    );
+                }
+            }
+            
+            // --- Event Listeners for Index.html ---
+
+            document.querySelectorAll('.book-package-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const packageNameKey = button.dataset.packageName; 
+                    const sessionsTotal = parseInt(button.dataset.sessionsTotal);
+                    const durationDays = parseInt(button.dataset.durationDays);
+                    const packageDetails = { packageNameKey, sessionsTotal, durationDays };
+                    bookPackage(packageDetails); 
+                });
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Event listener for mobile nav links to close menu
+            const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function () { 
+                    const href = this.getAttribute('href'); 
+                    if (href && (href.startsWith('auth.html') || href.startsWith('profile.html')) ) {
+                        // Let browser handle navigation
+                    } else if (href && href.startsWith('#')) {
+                        if (mobileMenu) mobileMenu.classList.add('hidden'); // Close only for internal links
+                    }
+                });
+            });
+            
+            const backToTopButton = document.getElementById('back-to-top');
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.remove('hidden');
+                        setTimeout(() => backToTopButton.classList.remove('opacity-0'), 10);
+                    } else {
+                        backToTopButton.classList.add('opacity-0');
+                        setTimeout(() => backToTopButton.classList.add('hidden'), 300);
+                    }
+                });
+                backToTopButton.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+            
+            const contactForm = document.getElementById('contact-form');
+            const serviceSelect = document.getElementById('service'); 
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const serviceValue = serviceSelect ? serviceSelect.value : ''; 
+                    const serviceText = serviceSelect && serviceSelect.querySelector(`option[value="${serviceValue}"]`) ? serviceSelect.querySelector(`option[value="${serviceValue}"]`).textContent : getTranslation('general_inquiry'); // Use a generic name for unselected or invalid service
+                    const message = document.getElementById('message').value;
+                    
+                    showModal(
+                        getTranslation('contact_form_success_title'), 
+                        getTranslation('contact_form_success_message', { 
+                            name: name,
+                            email: email,
+                            phone: phone || getTranslation('not_provided'), 
+                            service: serviceText, 
+                            message: message || getTranslation('no_additional_message') 
+                        }), 
+                        [{ text: getTranslation('ok_btn') }]
+                    );
+                    
+                    contactForm.reset();
+                });
+            }
+
+            // Smooth scroll for all href="#..." links, including those in the new header structure
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#contact') {
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                        setTimeout(() => {
+                            const firstFormInput = document.querySelector('#contact-form input, #contact-form textarea, #contact-form select');
+                            if (firstFormInput) {
+                                firstFormInput.focus();
+                            }
+                        }, 500);
+                    } else if (href !== '#') { 
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768 && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            // Initial call to update header auth actions
+            updateHeaderAuthActions(); 
+        }); // End DOMContentLoaded for index.html
+    </script>
+</body>
+</html>

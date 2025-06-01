@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سياسة الخصوصية | بيلاتس هاوس</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.8;
+            padding: 40px 20px; /* General padding for content */
+        }
+        .policy-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            direction: rtl;
+            text-align: right;
+        }
+        .policy-container h1 {
+            color: #bcb2a3;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .policy-container h2 {
+            color: #444;
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .policy-container p {
+            margin-bottom: 15px;
+        }
+        .policy-container ul { /* Added styling for lists */
+            list-style: disc;
+            margin-right: 20px; /* Indent for RTL */
+            margin-bottom: 15px;
+        }
+        .policy-container li {
+            margin-bottom: 8px;
+        }        .btn-back {
+            background-color: #bcb2a3;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
+            cursor: pointer;
+            border: none;
+            display: inline-block; /* For alignment */
+        }
+        .btn-back:hover {
+            background-color: #a89e8f;
+        }
+    </style>
+</head>
+<body>
+    <div class="policy-container">
+        <h1>سياسة الخصوصية</h1>
+        <p>هذه هي سياسة الخصوصية الخاصة بـ "بيلاتس هاوس". تصف هذه السياسة كيفية جمعنا واستخدامنا والكشف عن معلوماتك الشخصية.</p>
+        
+        <h2>جمع المعلومات</h2>
+        <p>نقوم بجمع معلومات تمكننا من توفير خدماتنا وتحسين تجربتك. تتضمن هذه المعلومات اسمك، وعنوان بريدك الإلكتروني، ومعلومات الدفع (عند الشراء)، وأي تفاصيل أخرى تقدمها لنا طواعية.</p>
+        <p>نستخدم أيضًا ملفات تعريف الارتباط (الكوكيز) وتقنيات التتبع المماثلة لتتبع النشاط على خدمتنا واحتفاظنا ببعض المعلومات.</p>
+
+        <h2>استخدام المعلومات</h2>
+        <p>تُستخدم المعلومات التي نجمعها لأغراض مختلفة، بما في ذلك:</p>
+        <ul>
+            <li>لتوفير وصيانة خدمتنا.</li>
+            <li>لإدارة حسابك.</li>
+            <li>لإبلاغك بالتحديثات والعروض.</li>
+            <li>لتحسين خدمتنا.</li>
+            <li>للامتثال للمتطلبات القانونية.</li>
+        </ul>
+
+        <h2>كشف المعلومات</h2>
+        <p>لن نشارك معلوماتك الشخصية مع أطراف ثالثة إلا في الحالات التالية:</p>
+        <ul>
+            <li>بموافقتك.</li>
+            <li>للامتثال لالتزام قانوني.</li>
+            <li>لحماية والدفاع عن حقوق وممتلكات "بيلاتس هاوس".</li>
+            <li>لمنع أو التحقيق في مخالفات محتملة تتعلق بالخدمة.</li>
+        </ul>
+
+        <h2>أمان البيانات</h2>
+        <p>أمان بياناتك مهم بالنسبة لنا، ولكن تذكر أنه لا توجد طريقة إرسال عبر الإنترنت أو طريقة تخزين إلكترونية آمنة بنسبة 100%. أثناء سعينا لاستخدام وسائل مقبولة تجاريًا لحماية معلوماتك الشخصية، لا يمكننا ضمان أمانها المطلق.</p>
+
+        <h2>تغييرات في سياسة الخصوصية هذه</h2>
+        <p>قد نقوم بتحديث سياسة الخصوصية الخاصة بنا من وقت لآخر. سنخطرك بأي تغييرات عن طريق نشر سياسة الخصوصية الجديدة على هذه الصفحة. يُنصح بمراجعة سياسة الخصوصية هذه بشكل دوري لأي تغييرات.</p>
+
+        <button id="backButton" class="btn-back">عودة إلى الشروط والأحكام</button>
+    </div>
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', () => {
+            window.location.href = 'auth_agreement.html'; // Direct redirection
+        });
+    </script>
+</body>
+</html>

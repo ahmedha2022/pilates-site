@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"> <!-- Default to LTR, JS will set based on localStorage -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="auth_page_title">Login / Sign Up | Pilates House</title> <!-- Add new translation key -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .auth-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            /* direction: rtl;  REMOVED - Handled by JS dir attribute */
+        }
+        .auth-container h1 {
+            color: #bcb2a3;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .auth-container h2 {
+            font-size: 1.75rem;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right; /* Default for labels, will be flex aligned */
+        }
+        html[dir="ltr"] .form-group {
+            text-align: left; /* Align labels left for LTR */
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+        .auth-button {
+            width: 100%;
+            padding: 14px 20px;
+            background-color: #bcb2a3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+        .auth-button:hover {
+            background-color: #a89e8f;
+        }
+        .toggle-link {
+            display: block;
+            margin-top: 25px;
+            color: #bcb2a3;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .toggle-link:hover {
+            color: #a89e8f;
+            text-decoration: underline;
+        }
+
+        /* Tabs styling */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ccc;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #555;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #bcb2a3;
+            border-color: #bcb2a3;
+        }
+        .tab-button:hover:not(.active) {
+            color: #888;
+        }
+        /* MODIFIED CLASSES TO MATCH SCRIPT.JS IDs */
+        #loginFormContainer, #signupFormContainer {
+            display: none; /* Hide panels by default, JS will show one */
+        }
+        #loginFormContainer.active, #signupFormContainer.active {
+            display: block;
+        }
+        .text-feedback { /* New class for error/success messages */
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            line-height: normal;
+        }
+        html[dir="ltr"] .text-feedback {
+            text-align: left;
+        }
+        html[dir="rtl"] .text-feedback {
+            text-align: right;
+        }
+        .tabs-container {
+            flex-direction: row-reverse; /* Default for RTL */
+        }
+        html[dir="ltr"] .tabs-container {
+            flex-direction: row; /* Overrides for LTR */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h1 data-i18n="hero_title">بيلاتس هاوس</h1>
+
+        <div class="tabs-container">
+            <button id="loginTab" class="tab-button active" data-i18n="login_button">تسجيل الدخول</button>
+            <button id="signupTab" class="tab-button" data-i18n="signup_button">إنشاء حساب</button>
+        </div>
+
+        <!-- Login Form Panel -->
+        <div id="loginFormContainer" class="active">
+            <h2 data-i18n="welcome_back">أهلاً بعودتك!</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email" data-i18n="email_address">البريد الإلكتروني</label>
+                    <input type="email" id="login-email" data-i18n-placeholder="email_address" required>
+                    <p id="login-email-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" data-i18n="password">كلمة المرور</label>
+                    <input type="password" id="login-password" data-i18n-placeholder="password" required>
+                    <p id="login-password-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <p id="login-error" class="text-feedback text-red-500 hidden"></p>
+                <button type="submit" class="auth-button" data-i18n="login_button">تسجيل الدخول</button>
+            </form>
+            <a href="#" id="showSignup" class="toggle-link" data-i18n="dont_have_account">ليس لديك حساب؟ إنشاء حساب</a>
+        </div>
+
+        <!-- Signup Form Panel -->
+        <div id="signupFormContainer">
+            <h2 data-i18n="create_account">إنشاء حساب جديد</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name" data-i18n="full_name">الاسم الكامل</label>
+                    <input type="text" id="signup-name" data-i18n-placeholder="full_name" required>
+                    <p id="signup-name-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email" data-i18n="email_address">البريد الإلكتروني</label>
+                    <input type="email" id="signup-email" data-i18n-placeholder="email_address" required>
+                    <p id="signup-email-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password" data-i18n="password">كلمة المرور</label>
+                    <input type="password" id="signup-password" data-i18n-placeholder="password" required>
+                    <p id="signup-password-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm-password" data-i18n="confirm_password">تأكيد كلمة المرور</label>
+                    <input type="password" id="signup-confirm-password" data-i18n-placeholder="confirm_password" required>
+                    <p id="signup-confirm-password-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="signup-phone" data-i18n="phone_number">رقم الهاتف</label>
+                    <input type="tel" id="signup-phone" data-i18n-placeholder="phone_number_optional">
+                    <p id="signup-phone-error" class="text-feedback text-red-500 hidden"></p>
+                </div>
+                <p id="signup-success" class="text-feedback text-green-500 hidden"></p>
+                <button type="submit" class="auth-button" data-i18n="signup_button">إنشاء حساب</button>
+            </form>
+            <a href="#" id="showLogin" class="toggle-link" data-i18n="already_have_account">لديك حساب بالفعل؟ تسجيل الدخول</a>
+        </div>
+    </div>
+
+    <!-- Custom Modal Container -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full transform -translate-y-4 opacity-0 transition-all duration-300 scale-95" id="modalContent">
+            <h3 class="text-xl font-bold text-[#bcb2a3] mb-4 text-center" id="modalTitle"></h3>
+            <p class="text-gray-700 mb-6 text-center" id="modalMessage"></p>
+            <div class="flex justify-center gap-4" id="modalButtons">
+                <!-- Buttons will be injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="languages.js"></script>
+    <script>
+        // --- Modal Functions (Copied from index.html/shared logic) ---
+        const customModal = document.getElementById('customModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalButtons = document.getElementById('modalButtons');
+
+        function showModal(title, message, buttons) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalButtons.innerHTML = ''; // Clear previous buttons
+
+            buttons.forEach(btn => {
+                const buttonElement = document.createElement('button');
+                buttonElement.textContent = btn.text;
+                buttonElement.className = `px-6 py-2 rounded-lg font-medium transition ${btn.className || 'bg-[#bcb2a3] text-white hover:bg-[#a89e8f]'}`;
+                buttonElement.onclick = () => {
+                    hideModal();
+                    if (btn.callback) {
+                        btn.callback(btn.value);
+                    }
+                };
+                modalButtons.appendChild(buttonElement);
+            });
+
+            customModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('-translate-y-4', 'opacity-0', 'scale-95');
+            modalContent.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+        }
+
+        function hideModal() {
+            customModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.add('-translate-y-4', 'opacity-0', 'scale-95');
+            modalContent.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+        }
+
+        // --- Language Loading and Application (Copied from index.html/shared logic) ---
+        let currentLanguage = localStorage.getItem('siteLanguage') || 'ar'; // Default language
+
+        function loadLanguage(lang) {
+            const htmlElement = document.documentElement;
+            htmlElement.setAttribute('lang', lang);
+            htmlElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            localStorage.setItem('siteLanguage', lang);
+            currentLanguage = lang; // Update currentLanguage variable
+
+            // Translate page title
+            const pageTitleElement = document.querySelector('title');
+            if (pageTitleElement && pageTitleElement.dataset.i18n) {
+                pageTitleElement.textContent = getTranslation(pageTitleElement.dataset.i18n);
+            }
+
+            // Select all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                const replacements = {};
+
+                // Handle data-i18n-arg-X for placeholders USED FOR TRANSLATIONS THAT INVOLVE NUMBERS OR OTHER ARGUMENTS
+                for (let i = 0; typeof element.dataset[`i18nArg${i}`] !== 'undefined'; i++) {
+                    replacements[`arg${i}`] = element.dataset[`i18nArg${i}`];
+                }
+
+                // Apply translation for non-placeholder elements
+                if (!element.hasAttribute('data-i18n-placeholder')) {
+                    element.textContent = getTranslation(key, replacements);
+                } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    // Update the placeholder attribute for input/textarea elements
+                    element.setAttribute('placeholder', getTranslation(element.dataset.i18nPlaceholder));
+                }
+            });
+
+            // Update placeholder attributes for inputs whose keys are in data-i18n-placeholder
+            document.querySelectorAll('input[data-i18n-placeholder], textarea[data-i18n-placeholder]').forEach(element => {
+                element.setAttribute('placeholder', getTranslation(element.dataset.i18nPlaceholder));
+            });
+        }
+
+
+        // --- Auth.html Specific Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial language load on this page
+            loadLanguage(currentLanguage);
+
+            const API_BASE_URL = window.location.origin;
+
+            const loginFormContainer = document.getElementById('loginFormContainer');
+            const signupFormContainer = document.getElementById('signupFormContainer');
+            const loginTab = document.getElementById('loginTab');
+            const signupTab = document.getElementById('signupTab');
+
+            function showAuthPanel(panelName) {
+                if (loginFormContainer && signupFormContainer && loginTab && signupTab) {
+                    if (panelName === 'login') {
+                        loginFormContainer.classList.add('active');
+                        signupFormContainer.classList.remove('active');
+                        loginTab.classList.add('active');
+                        signupTab.classList.remove('active');
+                    } else { // panelName === 'signup'
+                        signupFormContainer.classList.add('active');
+                        loginFormContainer.classList.remove('active');
+                        signupTab.classList.add('active');
+                        loginTab.classList.remove('active');
+                    }
+                    // Clear all error/success messages whenever panel is switched
+                    document.querySelectorAll('.text-feedback').forEach(p => p.classList.add('hidden'));
+
+                    // Re-apply translations for currently visible form content (labels, placeholders, buttons)
+                    loadLanguage(currentLanguage);
+                }
+            }
+
+            // DOM elements for form fields and messages
+            const signupFormElement = document.getElementById('signup-form');
+            const loginFormElement = document.getElementById('login-form');
+
+            const signupNameInput = document.getElementById('signup-name');
+            const signupEmailInput = document.getElementById('signup-email');
+            const signupPasswordInput = document.getElementById('signup-password');
+            const signupConfirmPasswordInput = document.getElementById('signup-confirm-password');
+            const signupPhoneInput = document.getElementById('signup-phone');
+
+            const loginEmailInput = document.getElementById('login-email');
+            const loginPasswordInput = document.getElementById('login-password');
+
+            const signupNameError = document.getElementById('signup-name-error');
+            const signupEmailError = document.getElementById('signup-email-error');
+            const signupPasswordError = document.getElementById('signup-password-error');
+            const signupConfirmPassError = document.getElementById('signup-confirm-password-error');
+            const signupPhoneError = document.getElementById('signup-phone-error'); // Added for phone number error
+            const signupSuccessMessage = document.getElementById('signup-success');
+
+            const loginEmailError = document.getElementById('login-email-error');
+            const loginPasswordError = document.getElementById('login-password-error');
+            const loginErrorMessage = document.getElementById('login-error');
+
+
+            // Helper function to display/hide error messages using translations
+            const displayFeedback = (element, key, type = 'error') => {
+                if (element) {
+                    element.textContent = getTranslation(key);
+                    element.classList.remove('hidden', 'text-red-500', 'text-green-500'); // Clear existing classes
+                    if (type === 'error') {
+                        element.classList.add('text-red-500');
+                    } else {
+                        element.classList.add('text-green-500');
+                    }
+                }
+            };
+
+            const hideAllFeedback = () => {
+                document.querySelectorAll('.text-feedback').forEach(p => p.classList.add('hidden'));
+            };
+
+
+            // Check if user is already logged in
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser && currentUser !== 'null' && JSON.parse(currentUser).id) { // Check for valid user object
+                window.location.href = 'profile.html'; // Always go to profile if already logged in
+                return;
+            }
+
+            // Handle URL parameter for initial panel display
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('action') === 'signup') {
+                showAuthPanel('signup');
+            } else {
+                showAuthPanel('login');
+            }
+
+            // Event listeners for tab buttons and toggle links
+            if (loginTab) loginTab.addEventListener('click', () => showAuthPanel('login'));
+            if (signupTab) signupTab.addEventListener('click', () => showAuthPanel('signup'));
+
+            const showSignupLink = document.getElementById('showSignup');
+            const showLoginLink = document.getElementById('showLogin'); 
+            if (showSignupLink) {
+                showSignupLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showAuthPanel('signup');
+                });
+            }
+            if (showLoginLink) {
+                showLoginLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showAuthPanel('login');
+                });
+            }
+
+            // Signup Form Submission
+            if(signupFormElement) {
+                signupFormElement.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    hideAllFeedback(); // Clear previous messages
+
+                    const name = signupNameInput.value.trim();
+                    const email = signupEmailInput.value.trim();
+                    const password = signupPasswordInput.value.trim();
+                    const confirmPassword = signupConfirmPasswordInput.value.trim();
+                    const phone = signupPhoneInput.value.trim();
+
+                    // Validation
+                    if (!name) { displayFeedback(signupNameError, 'full_name_required'); return; }
+                    if (!email) { displayFeedback(signupEmailError, 'email_required'); return; }
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { displayFeedback(signupEmailError, 'invalid_email'); return; }
+                    if (!password) { displayFeedback(signupPasswordError, 'password_required'); return; }
+                    if (password.length < 6) { displayFeedback(signupPasswordError, 'short_password'); return; }
+                    if (password !== confirmPassword) { displayFeedback(signupConfirmPassError, 'password_mismatch'); return; }
+                    //Basic phone validation
+                    if (phone && !/^\+?[0-9\s-()]{7,20}$/.test(phone)) { displayFeedback(signupPhoneError, 'phone_number_invalid'); return; }
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/register`, { // Use /api/register
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, email, password, phone }),
+                        });
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            localStorage.setItem('currentUser', JSON.stringify({ id: data.userId, name: name, email: email }));
+                            localStorage.setItem('userToken', data.token || 'dummy-token-after-signup'); // Store token
+                            localStorage.setItem('justSignedUp', 'true'); // Flag for agreement page
+
+                            showModal(
+                                getTranslation('auth_success_title'),
+                                getTranslation('registration_success_message_agree_terms'), // New message for terms
+                                [
+                                    {
+                                        text: getTranslation('agree_terms_and_conditions'), // New button text
+                                        callback: () => { window.location.href = 'auth_agreement.html'; },
+                                        className: 'bg-[#bcb2a3] text-white hover:bg-[#a89e8f]'
+                                    }
+                                ]
+                            );
+
+                        } else {
+                            displayFeedback(signupEmailError, data.message === 'User already exists' ? 'registration_failed_message' : 'registration_failed_message');
+                        }
+                    } catch (error) {
+                        console.error('Signup fetch error:', error);
+                        displayFeedback(signupNameError, 'server_connection_error');
+                    }
+                });
+            }
+
+            // Login Form Submission
+            if(loginFormElement) {
+                loginFormElement.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    hideAllFeedback(); // Clear previous messages
+
+                    const email = loginEmailInput.value.trim();
+                    const password = loginPasswordInput.value.trim();
+
+                    // Validation
+                    if (!email) { displayFeedback(loginEmailError, 'email_required'); return; }
+                    if (!password) { displayFeedback(loginPasswordError, 'password_required'); return; }
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/login`, { // Use /api/login
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password }),
+                        });
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            localStorage.setItem('currentUser', JSON.stringify(data.user));
+                            localStorage.setItem('userToken', data.token || 'dummy-token-after-login'); // Store token
+
+                            showModal(
+                                getTranslation('auth_success_title'),
+                                getTranslation('login_success_message'),
+                                [
+                                    { text: getTranslation('go_to_profile'), callback: () => { window.location.href = 'profile.html'; }, className: 'bg-[#bcb2a3] text-white hover:bg-[#a89e8f]' }
+                                ]
+                            );
+                        } else {
+                            displayFeedback(loginErrorMessage, data.message === 'Invalid credentials' ? 'login_failed_message' : 'user_not_found');
+                        }
+                    } catch (error) {
+                        console.error('Login fetch error:', error);
+                        displayFeedback(loginErrorMessage, 'server_connection_error');
+                    }
+                });
+            }
+        }); // End DOMContentLoaded for auth.html
+    </script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"> <!-- Default to LTR, JS will set based on localStorage -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="my_profile_page_title">ملفي الشخصي | بيلاتس هاوس</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .profile-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+            /* direction: rtl; REMOVED - Handled by JS dir attribute */
+        }
+        .profile-container h1 {
+            color: #bcb2a3;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: right; /* Default for RTL */
+        }
+        html[dir="ltr"] .profile-info {
+            text-align: left; /* Adjust for LTR */
+        }
+        .profile-info p {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        .profile-info p strong {
+            color: #333;
+        }
+        html[dir="rtl"] .profile-info p strong {
+            padding-left: 0.5rem; /* Space after strong in RTL */
+        }
+        html[dir="ltr"] .profile-info p strong {
+            padding-right: 0.5rem; /* Space after strong in LTR */
+        }
+
+        .packages-section h2 {
+            font-size: 2rem;
+            color: #bcb2a3;
+            margin-bottom: 20px;
+        }
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .package-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            text-align: right; /* Default for RTL */
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s ease;
+        }
+        html[dir="ltr"] .package-card {
+            text-align: left; /* Adjust for LTR */
+            flex-direction: row; /* Default for LTR */
+        }
+        html[dir="rtl"] .package-card {
+            flex-direction: row-reverse; /* For RTL */
+        }
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+        .package-card i {
+            font-size: 2.5rem;
+            color: #bcb2a3;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .package-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .package-card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .logout-button {
+            background-color: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
+        }
+        .logout-button:hover {
+            background-color: #dc2626;
+        }
+        .back-to-home {
+            display: block;
+            margin-top: 20px;
+            color: #bcb2a3;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .back-to-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <h1 data-i18n="my_profile">ملفي الشخصي</h1>
+
+        <div class="profile-info">
+            <p><strong data-i18n="name_label">الاسم:</strong> <span id="profileName" data-i18n="loading_dots">جاري التحميل...</span></p>
+            <p><strong data-i18n="email_label">البريد الإلكتروني:</strong> <span id="profileEmail" data-i18n="loading_dots">جاري التحميل...</span></p>
+        </div>
+
+        <section class="packages-section">
+            <h2 data-i18n="my_packages">باقاتي</h2>
+            <div id="packagesList" class="packages-grid">
+                <!-- Package cards will be inserted here by JavaScript -->
+                <p class="text-gray-600" data-i18n="loading_packages">جاري تحميل باقاتك...</p>
+            </div>
+        </section>
+
+        <button id="logoutBtn" class="logout-button" data-i18n="logout_btn">تسجيل الخروج</button>
+        <a href="index.html" class="back-to-home" data-i18n="back_to_home">العودة إلى الصفحة الرئيسية</a>
+    </div>
+
+    <!-- Custom Modal Container -->
+    <div id="customModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full transform -translate-y-4 opacity-0 transition-all duration-300 scale-95" id="modalContent">
+            <h3 class="text-xl font-bold text-[#bcb2a3] mb-4 text-center" id="modalTitle"></h3>
+            <p class="text-gray-700 mb-6 text-center" id="modalMessage"></p>
+            <div class="flex justify-center gap-4" id="modalButtons">
+                <!-- Buttons will be injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="languages.js"></script>
+    <script>
+        // --- Modal Functions (Copied from index.html/shared logic) ---
+        const customModal = document.getElementById('customModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalButtons = document.getElementById('modalButtons');
+
+        function showModal(title, message, buttons) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalButtons.innerHTML = ''; // Clear previous buttons
+
+            buttons.forEach(btn => {
+                const buttonElement = document.createElement('button');
+                buttonElement.textContent = btn.text;
+                buttonElement.className = `px-6 py-2 rounded-lg font-medium transition ${btn.className || 'bg-[#bcb2a3] text-white hover:bg-[#a89e8f]'}`;
+                buttonElement.onclick = () => {
+                    hideModal();
+                    if (btn.callback) {
+                        btn.callback(btn.value);
+                    }
+                };
+                modalButtons.appendChild(buttonElement);
+            });
+
+            customModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('-translate-y-4', 'opacity-0', 'scale-95');
+            modalContent.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+        }
+
+        function hideModal() {
+            customModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.add('-translate-y-4', 'opacity-0', 'scale-95');
+            modalContent.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+        }
+
+        // --- Language Loading and Application (Copied from index.html/shared logic) ---
+        let currentLanguage = localStorage.getItem('siteLanguage') || 'ar'; // Default language
+
+        function loadLanguage(lang) {
+            const htmlElement = document.documentElement;
+            htmlElement.setAttribute('lang', lang);
+            htmlElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            localStorage.setItem('siteLanguage', lang);
+            currentLanguage = lang; // Update currentLanguage variable
+
+            // Translate page title
+            const pageTitleElement = document.querySelector('title');
+            if (pageTitleElement && pageTitleElement.dataset.i18n) {
+                pageTitleElement.textContent = getTranslation(pageTitleElement.dataset.i18n);
+            }
+
+            // Select all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                const replacements = {};
+
+                // Handle data-i18n-arg-X for placeholders USED FOR TRANSLATIONS THAT INVOLVE NUMBERS OR OTHER ARGUMENTS
+                for (let i = 0; typeof element.dataset[`i18nArg${i}`] !== 'undefined'; i++) {
+                    replacements[`arg${i}`] = element.dataset[`i18nArg${i}`];
+                }
+
+                // Apply translation for non-placeholder elements
+                if (!element.hasAttribute('data-i18n-placeholder')) {
+                    element.textContent = getTranslation(key, replacements);
+                } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    // Update the placeholder attribute for input/textarea elements
+                    element.setAttribute('placeholder', getTranslation(element.dataset.i18nPlaceholder));
+                }
+            });
+
+            // Update placeholder attributes for inputs whose keys are in data-i18n-placeholder
+            document.querySelectorAll('input[data-i18n-placeholder], textarea[data-i18n-placeholder]').forEach(element => {
+                element.setAttribute('placeholder', getTranslation(element.dataset.i18nPlaceholder));
+            });
+        }
+
+        // --- Profile.html Specific Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial language load on this page
+            loadLanguage(currentLanguage);
+
+            const API_BASE_URL = window.location.origin;
+
+            const profileNameSpan = document.getElementById('profileName');
+            const profileEmailSpan = document.getElementById('profileEmail');
+            const packagesListDiv = document.getElementById('packagesList');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (!currentUser || !currentUser.id) {
+                // Not logged in or user data missing, redirect to login
+                showModal(getTranslation('error'), getTranslation('not_logged_in'), [
+                    { text: getTranslation('login_btn'), callback: () => { window.location.href = 'auth.html?action=login'; } }
+                ]);
+                return;
+            }
+
+            // Display basic user info immediately from localStorage
+            profileNameSpan.textContent = currentUser.name || currentUser.username || getTranslation('new_user'); 
+            profileEmailSpan.textContent = currentUser.email || getTranslation('not_available');
+
+            // Helper function to display packages
+            function displayPackages(packages) {
+                if (!packagesListDiv) return; 
+                packagesListDiv.innerHTML = ''; // Clear existing content
+                if (packages && packages.length > 0) {
+                    packages.forEach(pkg => {
+                        const packageCard = document.createElement('div');
+                        packageCard.className = 'package-card';
+                        
+                        const sessionsUsed = pkg.sessions_used || 0; // Ensure sessions_used and default to 0
+                        const expiryDateText = pkg.expiry_date || (pkg.duration_days ? getTranslation('calculated_automatically') : getTranslation('not_available')); 
+                        const statusText = getTranslation(pkg.status ? `package_status_${pkg.status.toLowerCase()}` : 'package_status_active'); // Translate status
+
+                        packageCard.innerHTML = `
+                            <i class="fas fa-dumbbell"></i>
+                            <div>
+                                <h3>${pkg.package_name || getTranslation('unknown_package')} (${sessionsUsed} / ${pkg.sessions_total || '?'} ${getTranslation('sessions_label')})</h3> 
+                                <p><strong data-i18n="start_date_label">تاريخ البدء:</strong> ${pkg.booked_date || getTranslation('not_available')}</p>
+                                <p><strong data-i18n="end_date_label">تاريخ الانتهاء:</strong> ${expiryDateText}</p>
+                                <p><strong data-i18n="status_label">الحالة:</strong> ${statusText}</p>
+                            </div>
+                        `;
+                        // Re-apply translations for inner HTML elements that use data-i18n
+                        loadLanguage(currentLanguage);
+                        packagesListDiv.appendChild(packageCard);
+                    });
+                } else {
+                    packagesListDiv.innerHTML = `<p class="text-gray-600" data-i18n="no_packages_yet">${getTranslation('no_packages_yet')}</p>`;
+                }
+            }
+
+            // Function to fetch and display profile data
+            const fetchProfileData = async () => {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/profile/${currentUser.id}`);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        profileNameSpan.textContent = data.user.name || currentUser.name || getTranslation('new_user');
+                        profileEmailSpan.textContent = data.user.email;
+
+                        // Display packages retrieved directly from the backend
+                        if (data.packages && data.packages.length > 0) {
+                             displayPackages(data.packages); 
+                        } else {
+                            packagesListDiv.innerHTML = `<p class="text-gray-600">${getTranslation('no_packages_yet')}</p>`;
+                        }
+
+                        // Check for justSignedUp and show welcome message only once
+                        const justSignedUp = localStorage.getItem('justSignedUp');
+                        if (justSignedUp === 'true') {
+                            showModal(getTranslation('welcome_to_pilates_house'), getTranslation('welcome_signup_message'), [
+                                { text: getTranslation('ok_btn') }
+                            ]);
+                            localStorage.removeItem('justSignedUp'); // Clear the flag
+                        }
+
+                    } else {
+                        console.error('Failed to fetch profile:', data.message);
+                        showModal(getTranslation('error'), data.message || getTranslation('fetch_profile_failed'), [
+                            { text: getTranslation('ok_btn') }
+                        ]);
+                        packagesListDiv.innerHTML = `<p class="text-red-500">${getTranslation('error_loading_packages')}</p>`;
+                    }
+                } catch (error) {
+                    console.error('Fetch profile error:', error);
+                    showModal(getTranslation('error'), getTranslation('server_connection_error'), [
+                        { text: getTranslation('ok_btn') }
+                    ]);
+                    packagesListDiv.innerHTML = `<p class="text-red-500">${getTranslation('server_connection_error_packages')}</p>`;
+                }
+            };
+
+            fetchProfileData(); // Call the function to load profile data
+
+            if (logoutBtn) {
+                 logoutBtn.addEventListener('click', () => {
+                    showModal(
+                        getTranslation('confirm_logout_title'),
+                        getTranslation('confirm_logout_message'),
+                        [
+                            { text: getTranslation('cancel'), value: false, className: 'bg-gray-300 text-gray-800 hover:bg-gray-400' },
+                            { text: getTranslation('logout_btn'), value: true, callback: () => {
+                                localStorage.removeItem('currentUser');
+                                localStorage.removeItem('userToken'); 
+                                localStorage.removeItem('justSignedUp'); 
+                                showModal(getTranslation('success'), getTranslation('logout_success'), [
+                                    { text: getTranslation('ok_btn'), callback: () => { window.location.href = 'index.html'; } }
+                                ]);
+                            }, className: 'bg-red-500 text-white hover:bg-red-600' }
+                        ]
+                    );
+                });
+            }
+        }); // End DOMContentLoaded for profile.html
+    </script>
+</body>
+</html>

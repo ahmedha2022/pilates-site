@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموافقة على الشروط</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container-agreement {
+            max-width: 600px;
+            width: 90%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            direction: rtl; /* Ensure RTL for content */
+        }
+        h2 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #bcb2a3;
+        }
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.8;
+            text-align: right;
+        }
+        .agreement-links a {
+            color: #bcb2a3;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .agreement-button {
+            background-color: #bcb2a3;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
+            display: inline-block;
+        }
+        .agreement-button:hover {
+            background-color: #a89e8f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-agreement">
+        <h2>أهلاً بك في بيلاتس هاوس!</h2>
+        <p>بإنشائك لحساب معنا، فإنك توافق على:</p>
+        <p class="agreement-links">
+            <a href="terms.html" target="_blank" rel="noopener noreferrer">الشروط والأحكام</a>
+            و
+            <a href="privacy.html" target="_blank" rel="noopener noreferrer">سياسة الخصوصية</a>
+            الخاصة بنا.
+        </p>
+        <p>الرجاء قراءة هذه المستندات بعناية قبل المتابعة.</p>
+        <button id="agreeAndContinue" class="agreement-button">أوافق وأتابع إلى حسابي</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const agreeButton = document.getElementById('agreeAndContinue');
+
+            // Basic check: if no currentUser, redirect to login/signup
+            // This is crucial in a real app, though for a static demo, it just prevents random access.
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'auth.html?action=signup'; // or login
+                return;
+            }
+
+            agreeButton.addEventListener('click', () => {
+                // In a real application, you might save acceptance timestamp in the backend
+                // For this simulation, simply redirect to profile.
+                window.location.href = 'profile.html';
+            });
+        });
+    </script>
+</body>
+</html>
